@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Enhetsregisteret</string>
     <string name="search">Søk</string>
+
+    <!-- Organization strings -->
     <string name="organization_number">organisasjonsnummer</string>
     <string name="organization_number_h">Organisasjonsnummer</string>
     <string name="name">navn</string>
@@ -55,9 +57,25 @@
     <string name="industy_code_code">kode</string>
     <string name="industy_code_description">beskrivelse</string>
     <string name="data">data</string>
-    <string name="no_organizations_found">Fant ingen organisasjoner</string>
-    <string name="volley_timeout_error">Fikk ikke svar fra serveren</string>
-    <string name="volley_unkown_error">Some other error</string>
-    <string name="search_text_too_short">Søket må være lengre enn to bokstaver</string>
+
+    <!-- url strings -->
     <string name="google_search_address">https://www.google.com/search?q=</string>
+    <string name="url_start_number">http://data.brreg.no/enhetsregisteret/enhet/</string>
+    <string name="url_end_number">.json</string>
+    <string name="url_start_string"><![CDATA[http://data.brreg.no/enhetsregisteret/enhet.json?page=0&size=100&$filter=startswith(navn,\']]></string>
+    <string name="url_end_string">\')</string>
+    <string name="http">http://</string>
+    <string name="https">https://</string>
+
+    <!-- Regular expressions -->
+    <string name="regex_numbers_only">\\d+(?:\\.\\d+)?</string>
+
+    <!-- Error messages -->
+    <string name="error_short_search_text">Søketekst for kort</string>
+    <string name="error_no_organizations_found">Fant ingen organisasjoner</string>
+    <string name="error_nine_numbers_minimum">Organisasjonsnummer må bestå av 9 tall</string>
+    <string name="error_search_text_too_short">Søket må være lengre enn to bokstaver</string>
+    <string name="error_volley_timeout">Fikk ikke svar fra serveren</string>
+    <string name="error_volley_unkown">Some other error</string>
+
 </resources>

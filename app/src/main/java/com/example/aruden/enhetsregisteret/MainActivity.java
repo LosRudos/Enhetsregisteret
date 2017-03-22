@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.aruden.enhetsregisteret.communication.RequestHelper;
 import com.example.aruden.enhetsregisteret.communication.RequestHelperListener;
@@ -30,9 +29,12 @@ public class MainActivity extends AppCompatActivity implements RequestHelperList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        EditText searchField = (EditText)findViewById(R.id.editText1);
+        setupSearchField();
         requestHelper = new RequestHelper(this);
+    }
 
+    private void setupSearchField() {
+        EditText searchField = (EditText)findViewById(R.id.editText1);
         searchField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -72,22 +74,13 @@ public class MainActivity extends AppCompatActivity implements RequestHelperList
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         JSONObject currentOrg = orgList.get(position);
-                        goToDetailNew(view, currentOrg);
+                        goToDetailView(currentOrg);
                     }
                 }
         );
     }
 
-    private void displayList(String string) {
-        ArrayList<String> message = new ArrayList<>();
-        message.add(string);
-        ListAdapter stringAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, message);
-        ListView orgListView = (ListView) findViewById(R.id.orgListView);
-        orgListView.setAdapter(stringAdapter);
-    }
-
-    // TODO rename to goToDetail
-    public void goToDetailNew(View view, JSONObject organization) {
+    public void goToDetailView(JSONObject organization) {
         Intent detailIntent = new Intent(this, DetailActivity.class);
         detailIntent.putExtra("orgData", organization.toString());
         startActivity(detailIntent);

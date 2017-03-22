@@ -107,7 +107,6 @@ public class JsonParser {
         if (tmpData != null) {
             addrData+=tmpData;
         }
-        // Samme risiko som fillNaeKode
         return addrData;
     }
 

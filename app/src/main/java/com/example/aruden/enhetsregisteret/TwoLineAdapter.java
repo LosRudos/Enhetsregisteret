@@ -22,14 +22,12 @@ class TwoLineAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // Both list in listContent will have same size
         List<String> list = listContent.get(Constants.ORG_LIST_CONTENT);
         return list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        // The actual content is in list 0
         List<String> list = listContent.get(Constants.ORG_LIST_CONTENT);
         return list.get(position);
     }

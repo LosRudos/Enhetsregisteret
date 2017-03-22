@@ -66,10 +66,10 @@ public class DetailActivity extends AppCompatActivity {
 
     private void goToUrl(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        if (url.startsWith("http://") || url.startsWith("https://")) {
+        if (url.startsWith(getString(R.string.http)) || url.startsWith(getString(R.string.https))) {
             intent.setData(Uri.parse(url));
         } else {
-            intent.setData(Uri.parse("http://" + url));
+            intent.setData(Uri.parse(getString(R.string.http) + url));
         }
         startActivity(intent);
     }
@@ -79,9 +79,5 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(getString(R.string.google_search_address) + split[0] + " " + split[2]));
         startActivity(intent);
-    }
-
-    public Context getContext() {
-        return this;
     }
 }

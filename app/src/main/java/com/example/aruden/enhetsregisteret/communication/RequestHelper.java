@@ -1,7 +1,6 @@
 package com.example.aruden.enhetsregisteret.communication;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
@@ -15,7 +14,6 @@ import com.example.aruden.enhetsregisteret.Constants;
 import com.example.aruden.enhetsregisteret.R;
 import com.example.aruden.enhetsregisteret.utils.JsonParser;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,8 +45,7 @@ public class RequestHelper {
                     if (JsonParser.validOrganization(context, response)) {
                         orgsList.add(response);
                     } else {
-                        // TODO Hva skal gjøres hvis listen er tom?
-                        listener.onError(context.getString(R.string.no_organizations_found));
+                        listener.onError(context.getString(R.string.error_no_organizations_found));
                     }
                 }
                 listener.onResult(orgsList);
@@ -57,9 +54,9 @@ public class RequestHelper {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                    listener.onError(context.getString(R.string.volley_timeout_error));
+                    listener.onError(context.getString(R.string.error_volley_timeout));
                 } else {
-                    listener.onError(context.getString(R.string.volley_unkown_error));
+                    listener.onError(context.getString(R.string.error_volley_unkown));
                 }
             }
         });
@@ -69,7 +66,6 @@ public class RequestHelper {
     }
 
     public void delayedSearch(final String url) {
-        Log.d("Debug", "Staring delayed search");
         if (thread != null) {
             if (thread.isAlive()) {
                 thread.interrupt();
@@ -104,25 +100,25 @@ public class RequestHelper {
     }
 
     private String createUrl(String string) {
+        context = listener.getContext();
         String urlStart;
         String urlEnd;
-        if (string.matches("\\d+(?:\\.\\d+)?")) {
+        if (string.matches(context.getString(R.string.regex_numbers_only))) {
             if (string.length() != Constants.ORG_NUMBER_LENGTH) {
-                listener.onError("Organisasjonsnummer må bestå av 9 tall");
+                listener.onError(context.getString(R.string.error_nine_numbers_minimum));
                 return null;
             }
-            urlStart = "http://data.brreg.no/enhetsregisteret/enhet/";
-            urlEnd = ".json";
+            urlStart = context.getString(R.string.url_start_number);
+            urlEnd = context.getString(R.string.url_end_number);
         } else {
-            if (string.length() < Constants.MINIMUM_SEARCH_LENGHT) {
-                listener.onError("Søketekst for kort");
+            if (string.length() < Constants.MINIMUM_SEARCH_LENGTH) {
+                listener.onError(context.getString(R.string.error_short_search_text));
                 return null;
             }
-            urlStart = "http://data.brreg.no/enhetsregisteret/enhet.json?page=0&size=100&$filter=startswith(navn,'";
-            urlEnd = "')";
+            urlStart = context.getString(R.string.url_start_string);
+            urlEnd = context.getString(R.string.url_end_string);
             string = fixUrlSpaces(string);
         }
-        Log.d("Debug", urlStart + string + urlEnd);
         return (urlStart + string + urlEnd);
     }
 }
