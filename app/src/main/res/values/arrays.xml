@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array
+        name="json_main_units">
+        <item>organisasjonsnummer</item>
+        <item>navn</item>
+        <item>stiftelsesdato</item>
+        <item>registreringsdatoEnhetsregisteret</item>
+        <item>organisasjonsform</item>
+        <item>hjemmeside</item>
+        <item>registrertIFrivillighetsregisteret</item>
+        <item>registrertIMvaregisteret</item>
+        <item>registrertIForetaksregisteret</item>
+        <item>registrertIStiftelsesregisteret</item>
+        <item>frivilligRegistrertIMvaregisteret</item>
+        <item>antallAnsatte</item>
+        <item>sisteInnsendteAarsregnskap</item>
+        <item>konkurs</item>
+        <item>underAvvikling</item>
+        <item>underTvangsavviklingEllerTvangsopplosning</item>
+        <item>overordnetEnhet</item>
+    </string-array>
+
+    <string-array
+        name="jason_main_units_h">
+        <item>Organisasjonsnummer</item>
+        <item>Navn</item>
+        <item>Stiftelsesdato</item>
+        <item>Registreringsdato i enhetsregisteret</item>
+        <item>Organisasjonsform</item>
+        <item>Hjemmeside</item>
+        <item>Registrert i frivillighetsregisteret</item>
+        <item>Registrert i mvaregisteret</item>
+        <item>Registrert i foretaksregisteret</item>
+        <item>Registrert i stiftelsesregisteret</item>
+        <item>Frivillig registrert i mvaregisteret</item>
+        <item>Antall ansatte</item>
+        <item>Siste innsendte aarsregnskap</item>
+        <item>Konkurs</item>
+        <item>Under avvikling</item>
+        <item>Under tvangsavvikling</item>
+        <item>Overordnet enhet</item>
+    </string-array>
+
+    <string-array name="json_sub_units">
+        <item>institusjonellSektorkode</item>
+        <item>naeringskode1</item>
+        <item>naeringskode2</item>>
+        <item>naeringskode3</item>
+        <item>postadresse</item>
+        <item>forretningsadresse</item>
+    </string-array>
+
+    <string-array name="json_sub_units_h">
+        <item>Institusjonell sektorkode</item>
+        <item>Næringskode 1</item>
+        <item>Næringskode 2</item>>
+        <item>Næringskode 3</item>
+        <item>Postadresse</item>
+        <item>Forretningsadresse</item>
+    </string-array>
+
+    <string-array
+        name="json_address_units">
+        <item>adresse</item>
+        <item>postnummer</item>
+        <item>poststed</item>
+        <item>kommunenummer</item>
+        <item>kommune</item>
+        <item>landkode</item>
+        <item>land</item>
+    </string-array>
+
+    <string-array name="na_code_units">
+        <item>kode</item>
+        <item>beskrivelse</item>
+    </string-array>
+</resources>

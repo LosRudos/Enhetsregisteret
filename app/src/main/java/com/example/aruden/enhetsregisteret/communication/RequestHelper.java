@@ -13,10 +13,13 @@ import com.android.volley.toolbox.Volley;
 import com.example.aruden.enhetsregisteret.Constants;
 import com.example.aruden.enhetsregisteret.R;
 import com.example.aruden.enhetsregisteret.utils.JsonParser;
+import com.example.aruden.enhetsregisteret.utils.Organization;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class RequestHelper {
@@ -38,15 +41,11 @@ public class RequestHelper {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                ArrayList<JSONObject> orgsList = new ArrayList<>();
+                ArrayList<Organization> orgsList = new ArrayList<>();
                 try {
                     orgsList = JsonParser.parseResponse(context, response);
                 } catch (JSONException e) {
-                    if (JsonParser.validOrganization(context, response)) {
-                        orgsList.add(response);
-                    } else {
                         listener.onError(context.getString(R.string.error_no_organizations_found));
-                    }
                 }
                 listener.onResult(orgsList);
             }
@@ -95,10 +94,6 @@ public class RequestHelper {
         thread.start();
     }
 
-    private String fixUrlSpaces(String url) {
-        return url.replaceAll(" ", "%20");
-    }
-
     private String createUrl(String string) {
         context = listener.getContext();
         String urlStart;
@@ -117,7 +112,13 @@ public class RequestHelper {
             }
             urlStart = context.getString(R.string.url_start_string);
             urlEnd = context.getString(R.string.url_end_string);
-            string = fixUrlSpaces(string);
+            try {
+                string = URLEncoder.encode(string, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                // Bør vise feilmelding
+                return null;
+            }
+
         }
         return (urlStart + string + urlEnd);
     }

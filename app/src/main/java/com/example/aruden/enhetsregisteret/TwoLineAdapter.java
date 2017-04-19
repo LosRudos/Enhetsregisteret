@@ -8,33 +8,39 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class TwoLineAdapter extends BaseAdapter {
 
     private Context context;
-    private List<List<String>> listContent;
+    private List<String> listContent;
+    private List<String> listHeader;
 
-    public TwoLineAdapter(Context context, List<List<String>> listContent) {
+    public TwoLineAdapter(Context context, String[] listContent, String[] listHeader) {
         this.context = context;
-        this.listContent = listContent;
+        this.listContent = new ArrayList<>();
+        this.listHeader = new ArrayList<>();
+        for (int i = 0; i < listContent.length; i++) {
+            if (listContent[i] != null) {
+                this.listContent.add(listContent[i]);
+                this.listHeader.add(listHeader[i]);
+            }
+        }
     }
 
     @Override
     public int getCount() {
-        List<String> list = listContent.get(Constants.ORG_LIST_CONTENT);
-        return list.size();
+        return listContent.size();
     }
 
     @Override
     public Object getItem(int position) {
-        List<String> list = listContent.get(Constants.ORG_LIST_CONTENT);
-        return list.get(position);
+        return listContent.get(position);
     }
 
     public String getHeader(int position) {
-        List<String> list = listContent.get(Constants.ORG_LIST_HEADER);
-        return list.get(position);
+        return listHeader.get(position);
     }
 
     @Override

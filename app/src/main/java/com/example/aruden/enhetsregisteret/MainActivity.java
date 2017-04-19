@@ -2,9 +2,9 @@ package com.example.aruden.enhetsregisteret;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -16,14 +16,14 @@ import android.widget.ListView;
 
 import com.example.aruden.enhetsregisteret.communication.RequestHelper;
 import com.example.aruden.enhetsregisteret.communication.RequestHelperListener;
-import com.example.aruden.enhetsregisteret.utils.JsonParser;
+import com.example.aruden.enhetsregisteret.utils.Organization;
 
-import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements RequestHelperListener {
 
     RequestHelper requestHelper;
+    ArrayAdapter<String> orgArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements RequestHelperList
         setContentView(R.layout.activity_main);
         setupSearchField();
         requestHelper = new RequestHelper(this);
+        orgArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1);
     }
 
     private void setupSearchField() {
@@ -57,15 +58,15 @@ public class MainActivity extends AppCompatActivity implements RequestHelperList
         requestHelper.delayedSearch(SearchString);
     }
 
-    private void displayList(final ArrayList<JSONObject> orgList) {
+    private void displayList(final ArrayList<Organization> orgList) {
         int listSize = orgList.size();
-        ArrayList<String> orgNames = new ArrayList<>();
+        orgArrayAdapter.clear();
         for (int i=0; i<listSize; i++) {
-            JSONObject currentOrg = orgList.get(i);
-            String currentName = JsonParser.getJsonData(currentOrg, "navn");
-            orgNames.add(currentName);
+            Organization currentOrg = orgList.get(i);
+            String currentName = currentOrg.getName();
+            orgArrayAdapter.add(currentName);
         }
-        ListAdapter orgAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, orgNames);
+        ListAdapter orgAdapter = orgArrayAdapter;
         ListView orgListView = (ListView) findViewById(R.id.orgListView);
         orgListView.setAdapter(orgAdapter);
 
@@ -73,21 +74,21 @@ public class MainActivity extends AppCompatActivity implements RequestHelperList
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        JSONObject currentOrg = orgList.get(position);
+                        Organization currentOrg = orgList.get(position);
                         goToDetailView(currentOrg);
                     }
                 }
         );
     }
 
-    public void goToDetailView(JSONObject organization) {
+    public void goToDetailView(Organization organization) {
         Intent detailIntent = new Intent(this, DetailActivity.class);
-        detailIntent.putExtra("orgData", organization.toString());
+        detailIntent.putExtra("orgData", organization);
         startActivity(detailIntent);
     }
 
     @Override
-    public void onResult(ArrayList<JSONObject> result) {
+    public void onResult(ArrayList<Organization> result) {
         displayList(result);
     }
 

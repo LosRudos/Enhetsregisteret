@@ -1,6 +1,5 @@
 package com.example.aruden.enhetsregisteret;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -10,16 +9,14 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.example.aruden.enhetsregisteret.utils.JsonParser;
+import com.example.aruden.enhetsregisteret.utils.Organization;
 
-import org.json.JSONObject;
-
-import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
 
-    private JSONObject organization;
-    private List<List<String>> orgData;
+    private Organization organization;
+    private String[] orgData;
+    private String[] orgHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +28,13 @@ public class DetailActivity extends AppCompatActivity {
 
     private void getOrg() {
         Intent parentIntent = getIntent();
-        String stringOrg = parentIntent.getStringExtra("orgData");
-        try {
-            organization = new JSONObject(stringOrg);
-        } catch (Throwable e) {
-            organization = null;
-        }
+        organization = (Organization)parentIntent.getSerializableExtra("orgData");
     }
 
     private void displayList() {
-        orgData = JsonParser.fillOrgData(this, organization);
-        ListAdapter orgAdapter = new TwoLineAdapter(this,orgData);
+        orgData = removeNullElements(organization.getOrgContent());
+        orgHeader = removeNullElements(organization.getOrgHeader());
+        ListAdapter orgAdapter = new TwoLineAdapter(this, orgData, orgHeader);
         ListView orgListView = (ListView) findViewById(R.id.orgDetailView);
         orgListView.setAdapter(orgAdapter);
 
@@ -49,14 +42,11 @@ public class DetailActivity extends AppCompatActivity {
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        List<String> headerList = orgData.get(Constants.ORG_LIST_HEADER);
-                        if (headerList.get(position) == getString(R.string.web_page_h)) {
-                            List<String> contentList = orgData.get(Constants.ORG_LIST_CONTENT);
-                            String url = contentList.get(position);
+                        if (orgHeader[position].equals(getString(R.string.web_page_h))) {
+                            String url = orgData[position];
                             goToUrl(url);
-                        } else if (headerList.get(position) == getString(R.string.business_address_h)) {
-                            List<String> contentList = orgData.get(Constants.ORG_LIST_CONTENT);
-                            String address = contentList.get(position);
+                        } else if (orgHeader[position].equals(getString(R.string.business_address_h))) {
+                            String address = orgData[position];
                             searchForAddress(address);
                         }
                     }
@@ -79,5 +69,23 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(getString(R.string.google_search_address) + split[0] + " " + split[2]));
         startActivity(intent);
+    }
+
+    private String[] removeNullElements(String[] list) {
+        int newLength = 0;
+        int newIndex = 0;
+        for (int i = 0; i < list.length; i++) {
+            if (list[i] != null) {
+                newLength = ++newLength;
+            }
+        }
+        String[] reducedList = new String[newLength];
+        for (int i = 0; i < list.length; i++) {
+            if (list[i] != null) {
+                reducedList[newIndex] = list[i];
+                newIndex = ++newIndex;
+            }
+        }
+        return reducedList;
     }
 }
