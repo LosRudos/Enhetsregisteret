@@ -22,8 +22,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements RequestHelperListener {
 
-    RequestHelper requestHelper;
-    ArrayAdapter<String> orgArrayAdapter;
+    private RequestHelper requestHelper;
+    private ArrayAdapter<String> orgArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements RequestHelperList
         setContentView(R.layout.activity_main);
         setupSearchField();
         requestHelper = new RequestHelper(this);
-        orgArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1);
+        orgArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1);
     }
 
     private void setupSearchField() {
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements RequestHelperList
         });
     }
 
-    void sendSearchReq(String SearchString) {
+    private void sendSearchReq(String SearchString) {
         requestHelper.delayedSearch(SearchString);
     }
 
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements RequestHelperList
         );
     }
 
-    public void goToDetailView(Organization organization) {
+    private void goToDetailView(Organization organization) {
         Intent detailIntent = new Intent(this, DetailActivity.class);
         detailIntent.putExtra("orgData", organization);
         startActivity(detailIntent);

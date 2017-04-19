@@ -74,15 +74,15 @@ public class DetailActivity extends AppCompatActivity {
     private String[] removeNullElements(String[] list) {
         int newLength = 0;
         int newIndex = 0;
-        for (int i = 0; i < list.length; i++) {
-            if (list[i] != null) {
+        for (String aList : list) {
+            if (aList != null) {
                 newLength = ++newLength;
             }
         }
         String[] reducedList = new String[newLength];
-        for (int i = 0; i < list.length; i++) {
-            if (list[i] != null) {
-                reducedList[newIndex] = list[i];
+        for (String aList : list) {
+            if (aList != null) {
+                reducedList[newIndex] = aList;
                 newIndex = ++newIndex;
             }
         }

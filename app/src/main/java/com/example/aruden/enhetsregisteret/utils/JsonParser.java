@@ -49,10 +49,7 @@ public class JsonParser {
     }
 
     public static boolean validOrganization(Context context, JSONObject jsonObject) {
-        if (getJsonData(jsonObject, context.getString(R.string.organization_number)) != null) {
-            return true;
-        }
-        return false;
+        return getJsonData(jsonObject, context.getString(R.string.organization_number)) != null;
     }
 
     public static JSONObject getSubObject(JSONObject jsonObject, String objName) {

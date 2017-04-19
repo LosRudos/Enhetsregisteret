@@ -25,8 +25,8 @@ public class JsonParserUnitTest extends TestCase {
     @Mock
     JSONObject jsonObject;
 
-    String objectContent;
-    String naeKode;
+    private String objectContent;
+    private String naeKode;
 
     @Override
     protected void setUp() throws Exception {

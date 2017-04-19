@@ -39,7 +39,7 @@ class TwoLineAdapter extends BaseAdapter {
         return listContent.get(position);
     }
 
-    public String getHeader(int position) {
+    private String getHeader(int position) {
         return listHeader.get(position);
     }
 
